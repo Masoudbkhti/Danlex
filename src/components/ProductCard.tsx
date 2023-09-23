@@ -1,0 +1,94 @@
+'use client'
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import {Box, Dialog, DialogActions, DialogContent, DialogTitle, Fade, IconButton, styled, Theme} from "@mui/material";
+import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
+
+
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+export default function ProductCard({data}) {
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+  <Box>
+        <Card sx={{ maxWidth: 345, }}>
+        <CardMedia
+                sx={{ height: 300,}}
+                image="https://danlextools.com/fa/wp-content/uploads/2022/08/dx-1171_dx-1172_dx-1185_cover-300x300.jpg"
+                title="green iguana"
+            />
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                    {data.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    دریل چکشی ۸۰۰ وات دنلکس با موتور گیربکسی و سه نظام آچاری
+                </Typography>
+            </CardContent>
+            <CardActions>
+                <Button size="small" onClick={handleClickOpen}>مقایسه</Button>
+
+
+                <BootstrapDialog
+                    onClose={handleClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={open}
+                    disableScrollLock={ true }
+                >
+                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
+                        {data.title} به مقایسه اضافه شد.
+                    </DialogTitle>
+                    <IconButton
+                        aria-label="close"
+                        onClick={handleClose}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <DialogContent dividers>
+                        <Typography gutterBottom>
+                            برای افزودن محصول جدید به مقایسه لطفا این صفحه را ببندید و محصولات دیگر را انتخاب کنید.
+                            برای مشاهده مقایسه لطفا روی دکمه زیر کلیک کنید.
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                            مشاهده مقایسه
+                        </Button>
+                    </DialogActions>
+                </BootstrapDialog>
+
+
+
+                <Button size="small">اطلاعات بیشتر</Button>
+            </CardActions>
+        </Card>
+  </Box>
+    )
+}
