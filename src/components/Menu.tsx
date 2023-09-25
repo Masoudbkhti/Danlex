@@ -125,8 +125,11 @@ export default function NavBar(){
         >
             <Box sx={{display:"flex", justifyContent:"flex-start", alignItems:"center",gap:"10px", width:"80%"}}>
                 <Box sx={{width:"130px"}}>
+                <Link href="/">
 
                 <img src="https://danlextools.com/fa/wp-content/uploads/2022/06/DANLEX-Logo-PNG-2-300x138-1.png" alt="دنلکس" style={{width:"100%"}} />
+                </Link>
+
                 </Box>
 
             <Tabs value={value} onChange={handleChange} aria-label="icon position tabs example">

@@ -4,6 +4,7 @@ import {Provider} from "react-redux";
 import {PersistGate} from "redux-persist/integration/react";
 
 
+// @ts-ignore
 const ClientProvider = ({children}) => {
     return(
         <Provider store={store}>

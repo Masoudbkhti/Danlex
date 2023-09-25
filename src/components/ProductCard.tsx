@@ -9,8 +9,11 @@ import Typography from '@mui/material/Typography';
 import {Box, Dialog, DialogActions, DialogContent, DialogTitle, Fade, IconButton, styled, Theme} from "@mui/material";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 
-
-
+import {useDispatch} from "react-redux";
+import {useCallback} from "react";
+import {addToCompare} from "@/redux/features/CompareSlice.ts";
+import {useSelector} from "react-redux";
+import Link from "next/link";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -19,13 +22,25 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         padding: theme.spacing(1),
     },
 }));
-export default function ProductCard({data}) {
 
+function DeleteIcon() {
+    return null;
+}
+
+export default function ProductCard({data}) {
+    const {products} = useSelector(store => store.Compare);
+    const duplicatedProducts = products.filter(item => item.id === data.id);
+    const isInCompare : boolean | undefined = duplicatedProducts[0]?.isDuplicate;
+    const dispatch = useDispatch();
+    const handleAddToCompare = useCallback(()=> {
+       setOpen(true);
+       dispatch(addToCompare(data))
+    },[])
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
     const handleClose = () => {
         setOpen(false);
     };
@@ -47,7 +62,8 @@ export default function ProductCard({data}) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={handleClickOpen}>مقایسه</Button>
+
+                           <Button size="small" onClick={handleAddToCompare}>مقایسه</Button>
 
 
                 <BootstrapDialog
@@ -56,9 +72,21 @@ export default function ProductCard({data}) {
                     open={open}
                     disableScrollLock={ true }
                 >
+                    {
+                        isInCompare ? (
+                                <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
+                                    {data.title} به مقایسه اضافه شده است.
+                                </DialogTitle>
+                            ) :
+                            (
+
                     <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
                         {data.title} به مقایسه اضافه شد.
                     </DialogTitle>
+                        )
+
+                    }
+
                     <IconButton
                         aria-label="close"
                         onClick={handleClose}
@@ -72,15 +100,18 @@ export default function ProductCard({data}) {
                         <CloseIcon />
                     </IconButton>
                     <DialogContent dividers>
+
                         <Typography gutterBottom>
                             برای افزودن محصول جدید به مقایسه لطفا این صفحه را ببندید و محصولات دیگر را انتخاب کنید.
                             برای مشاهده مقایسه لطفا روی دکمه زیر کلیک کنید.
                         </Typography>
                     </DialogContent>
                     <DialogActions>
+                        <Link href="/compare" passHref>
                         <Button autoFocus onClick={handleClose}>
                             مشاهده مقایسه
                         </Button>
+                        </Link>
                     </DialogActions>
                 </BootstrapDialog>
 
@@ -89,6 +120,7 @@ export default function ProductCard({data}) {
                 <Button size="small">اطلاعات بیشتر</Button>
             </CardActions>
         </Card>
+
   </Box>
     )
 }

@@ -1,10 +1,12 @@
+
 import Header from "../components/header/Header";
 import ProductCard from "@/components/ProductCard";
 import Container from "@mui/material/Container";
 import { PRODUCTS } from '@/lib/data.ts';
-import {Grid} from "@mui/material";
+import {Box, Grid} from "@mui/material";
 import Zoom from "@mui/material/Zoom";
 import * as React from "react";
+
 
 export default function App(){
 
@@ -26,6 +28,7 @@ export default function App(){
                 </Grid>
 
             </Container>
+
 
         </>
     )
