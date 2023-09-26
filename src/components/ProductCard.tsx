@@ -6,7 +6,18 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {Box, Dialog, DialogActions, DialogContent, DialogTitle, Fade, IconButton, styled, Theme} from "@mui/material";
+import {
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Fade,
+    IconButton,
+    Paper,
+    styled,
+    Theme
+} from "@mui/material";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 
 import {useDispatch} from "react-redux";
@@ -23,10 +34,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-function DeleteIcon() {
-    return null;
-}
-
 export default function ProductCard({data}) {
     const {products} = useSelector(store => store.Compare);
     const duplicatedProducts = products.filter(item => item.id === data.id);
@@ -38,16 +45,13 @@ export default function ProductCard({data}) {
     },[])
     const [open, setOpen] = React.useState(false);
 
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
     const handleClose = () => {
         setOpen(false);
     };
 
     return (
-  <Box>
-        <Card sx={{ maxWidth: 345, }}>
+  <Paper elevation={3}>
+        <Card>
         <CardMedia
                 sx={{ height: 300,}}
                 image="https://danlextools.com/fa/wp-content/uploads/2022/08/dx-1171_dx-1172_dx-1185_cover-300x300.jpg"
@@ -121,6 +125,6 @@ export default function ProductCard({data}) {
             </CardActions>
         </Card>
 
-  </Box>
+  </Paper>
     )
 }

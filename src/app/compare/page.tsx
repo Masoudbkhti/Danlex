@@ -78,8 +78,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                             <StyledTableCell>نام محصول</StyledTableCell>
                             <StyledTableCell align="right">توان</StyledTableCell>
                             <StyledTableCell align="right">دسته بندی</StyledTableCell>
-
-
                         </TableRow>
                     </TableHead>
                     <TableBody>

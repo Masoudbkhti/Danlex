@@ -1,5 +1,19 @@
 'use client'
-import {Paper, Tabs, Tab, InputBase, Popover, Typography, Grid, Item, Box, Image, Popper} from '@mui/material';
+import {
+    Paper,
+    Tabs,
+    Tab,
+    InputBase,
+    Popover,
+    Typography,
+    Grid,
+    Item,
+    Box,
+    Slide,
+    Popper,
+    Fade,
+    useScrollTrigger, Fab, Toolbar
+} from '@mui/material';
 
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
@@ -12,8 +26,7 @@ import PlumbingIcon from '@mui/icons-material/Plumbing';
 import Link from 'next/link'
 import Zoom from '@mui/material/Zoom';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import AdbIcon from '@mui/icons-material/Adb';
-
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 export default function NavBar(){
@@ -117,12 +130,52 @@ export default function NavBar(){
 
     }));
 
-    //Zoom
+    //Scroll to Top
+
+    interface Props {
+        window?: () => Window;
+        children: React.ReactElement;
+    }
+    function ScrollTop(props: Props) {
+        const { children, window } = props;
+        const trigger = useScrollTrigger({
+            target: window ? window() : undefined,
+            disableHysteresis: true,
+            threshold: 100,
+        });
+
+        const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+            const anchor = (
+                (event.target as HTMLDivElement).ownerDocument || document
+            ).querySelector('#back-to-top-anchor');
+
+            if (anchor) {
+                anchor.scrollIntoView({
+                    block: 'center',
+                });
+            }
+        };
+
+        return (
+            <Fade in={trigger}>
+                <Box
+                    onClick={handleClick}
+                    role="presentation"
+                    sx={{ position: 'fixed', bottom: 16, right: 16 }}
+                >
+                    {children}
+                </Box>
+            </Fade>
+        );
+    }
+
 
     return(
-
+<>
         <Paper elevation={1} square onMouseLeave={handleCloseMenu} sx={{width:"100%", height:"auto", display:"flex", justifyContent:"space-between", alignItems:"center", paddingX:"20%", zIndex:"99"}}
         >
+
+
             <Box sx={{display:"flex", justifyContent:"flex-start", alignItems:"center",gap:"10px", width:"80%"}}>
                 <Box sx={{width:"130px"}}>
                 <Link href="/">
@@ -186,7 +239,7 @@ export default function NavBar(){
 
 
             >
-                <Paper elevation={16} sx={{ p: 2, marginTop: 2, border:"1px" }}>
+                <Paper elevation={16} sx={{ p: 2, marginTop: 1, border:"1px" }}>
 
                     {/*value 0 = powertools*/}
                     {/*value  1 = cordless tools*/}
@@ -322,7 +375,16 @@ export default function NavBar(){
                 />
             </Search>
 
+
+            <Toolbar id="back-to-top-anchor" />
+
         </Paper>
 
+    <ScrollTop >
+        <Fab size="small" aria-label="scroll back to top">
+            <KeyboardArrowUpIcon />
+        </Fab>
+    </ScrollTop>
+</>
     )
 }
