@@ -9,7 +9,6 @@ import {
     Grid,
     Item,
     Box,
-    Slide,
     Popper,
     Fade,
     useScrollTrigger, Fab, Toolbar
@@ -30,6 +29,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 export default function NavBar(){
+
+
+
     //Tabs
     const [value, setValue] = React.useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -93,17 +95,10 @@ export default function NavBar(){
             setAnchorEl(event.currentTarget);
             setValue(index);
             setChecked(true);
-
-
-
-
         }
-
-
     };
     const handleCloseMenu = ():void => {
         setAnchorEl(null)
-
     }
     const handleClickAway = () => {
         setAnchorEl(null)
@@ -126,8 +121,6 @@ export default function NavBar(){
         '&:hover':{
             borderColor:theme.palette.primary.light,
         }
-
-
     }));
 
     //Scroll to Top
@@ -152,6 +145,8 @@ export default function NavBar(){
             if (anchor) {
                 anchor.scrollIntoView({
                     block: 'center',
+                    behavior: 'smooth',
+                    inline: 'nearest',
                 });
             }
         };
@@ -245,7 +240,6 @@ export default function NavBar(){
                     {/*value  1 = cordless tools*/}
                     {/*value 2 = benzin tools*/}
                     {/*value 3 = box*/}
-
 
                     {value === 0 &&
                         <div style={{height:"100%"}} >

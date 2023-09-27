@@ -20,9 +20,9 @@ export default function App(){
 
                 {PRODUCTS.map((item) => (
 
-                    <Grid item md={3}>
+                    <Grid item md={3} key={item.id}>
 
-                    <ProductCard key={item.id} data={item} />
+                    <ProductCard  data={item} />
 
                     </Grid>
                 ))}

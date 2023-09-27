@@ -6,17 +6,18 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/navigation'
+import {useEffect, useState} from 'react';
+import {useRef} from "react";
+
 import {
-    Box,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Fade,
     IconButton,
     Paper,
     styled,
-    Theme
 } from "@mui/material";
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 
@@ -24,7 +25,11 @@ import {useDispatch} from "react-redux";
 import {useCallback} from "react";
 import {addToCompare} from "@/redux/features/CompareSlice.ts";
 import {useSelector} from "react-redux";
-import Link from "next/link";
+import {LoadingButton} from "@mui/lab";
+
+
+
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -34,23 +39,46 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
+
 export default function ProductCard({data}) {
+
+    //Loading on Redirect
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const handleClick = useCallback(() => {
+        setLoading(true);
+
+            router.push('/compare');
+            return null;
+
+    },[])
+
+
+
+    //Send and reserve data from redux store
     const {products} = useSelector(store => store.Compare);
     const duplicatedProducts = products.filter(item => item.id === data.id);
     const isInCompare : boolean | undefined = duplicatedProducts[0]?.isDuplicate;
     const dispatch = useDispatch();
+
+
     const handleAddToCompare = useCallback(()=> {
        setOpen(true);
        dispatch(addToCompare(data))
     },[])
+
     const [open, setOpen] = React.useState(false);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
-    };
+        setLoading(false);
+        router.push('/', { scroll: false });
+    },[])
+
+
 
     return (
-  <Paper elevation={3}>
+        <Paper elevation={3} sx={{'&:hover': {boxShadow:"12"}, cursor:"pointer"}}>
         <Card>
         <CardMedia
                 sx={{ height: 300,}}
@@ -111,11 +139,20 @@ export default function ProductCard({data}) {
                         </Typography>
                     </DialogContent>
                     <DialogActions>
-                        <Link href="/compare" passHref>
-                        <Button autoFocus onClick={handleClose}>
-                            مشاهده مقایسه
-                        </Button>
-                        </Link>
+
+                        { loading  ? (
+                            <LoadingButton
+                                loading
+                                loadingPosition="end"
+                            >
+                                <Typography component="p" sx={{marginRight:"20px"}}>مشاهده مقایسه</Typography>
+                            </LoadingButton>
+                        ) : (
+                            <Button autoFocus onClick={handleClick}>
+                                مشاهده مقایسه
+                            </Button>
+                        )
+                        }
                     </DialogActions>
                 </BootstrapDialog>
 

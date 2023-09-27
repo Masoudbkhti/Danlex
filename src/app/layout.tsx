@@ -4,6 +4,7 @@ import {Vazirmatn} from "next/font/google";
 import Menu from '../components/Menu'
 import ClientProviderTheme from "@/app/ClientProviderTheme.js";
 import ClientProvider from "@/app/ClientProvider"
+import NextTopLoader from 'nextjs-toploader';
 
 
 const inter = Vazirmatn({ subsets: ['arabic'] });
@@ -27,6 +28,7 @@ export default function RootLayout({
   <body className={inter.className}>
   <ClientProvider>
 
+    <NextTopLoader />
 
   <Menu/>
 

@@ -25,6 +25,7 @@ export default function ComparePage() {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.common.white,
             fontSize: 18,
+            variant:"head"
 
 
         },
@@ -55,39 +56,49 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                 ) : (
         <>
 
-        <Grid container sx={{p:"20px"}} spacing={2}>
-            {products.map((item) => (
-                <Grid item lg={3} md={3} sm={6} xs={12}  key={item.id}>
 
-                <Paper elevation={2} sx={{p:"10px"}}>
-
-                <Box style={{ display: "flex", flexDirection: "column" }}>
-                    <img src={item.image} alt={item.title}></img>
-                    {item.title}
-                    <Button onClick={() => handleRemoveFromCompare(item.id)}>حذف از مقایسه</Button>
-                </Box>
-                </Paper>
-                </Grid>
-                ))}
-        </Grid>
 
             <TableContainer component={Paper} sx={{p:"20px"}}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>نام محصول</StyledTableCell>
-                            <StyledTableCell align="right">توان</StyledTableCell>
-                            <StyledTableCell align="right">دسته بندی</StyledTableCell>
+                            <StyledTableCell>
+                                <Grid container sx={{p:"20px"}} spacing={2}>
+                                    {products.map((item) => (
+                                        <Grid item lg={3} md={3} sm={6} xs={12}  key={item.id}>
+
+                                            <Paper elevation={2} sx={{p:"10px"}}>
+
+                                                <Box style={{ display: "flex", flexDirection: "column" }}>
+                                                    <img src={item.image} alt={item.title}></img>
+                                                    {item.title}
+                                                    <Button onClick={() => handleRemoveFromCompare(item.id)}>حذف از مقایسه</Button>
+                                                </Box>
+                                            </Paper>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </StyledTableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {products.map((row : {id: number, title: string, power: string, category: string}) => (
-                            <StyledTableRow key={row.id}>
+                            <StyledTableRow key={row.id} sx={{display:"flex", flexDirection:"column"}}>
                                 <StyledTableCell component="th" scope="row">
                                     {row.title}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">{row.power}</StyledTableCell>
-                                <StyledTableCell align="right">{row.category}</StyledTableCell>
+                                {/*<StyledTableCell align="right">{row.power}</StyledTableCell>*/}
+
+                                {/*<StyledTableCell align="right">{row.category}</StyledTableCell>*/}
+
+                                {/*<StyledTableCell align="right">{row.category}</StyledTableCell>*/}
+
+                                {/*<StyledTableCell align="right">{row.category}</StyledTableCell>*/}
+
+                                {/*<StyledTableCell align="right">{row.category}</StyledTableCell>*/}
+
+                                {/*<StyledTableCell align="right">{row.category}</StyledTableCell>*/}
 
                             </StyledTableRow>
                         ))}
