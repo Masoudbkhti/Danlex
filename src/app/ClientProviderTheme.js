@@ -74,6 +74,8 @@ const theme = createTheme({
 });
 
 const ClientProviterTheme = ({ children }) => {
-    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+    return <ThemeProvider theme={theme}>
+
+        {children}</ThemeProvider>;
 };
 export default ClientProviterTheme;

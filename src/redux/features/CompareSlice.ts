@@ -15,7 +15,7 @@ const CompareSlice = createSlice({
             addToCompare: (state, action)=>{
                     const {payload} = action;
                     const index = state.products.findIndex(item => item.id === payload.id)
-                    const isNotFound = index === -1;
+                const isNotFound = index === -1;
                     if (isNotFound) {
                     state.products.push({...payload, isDuplicate: false})
 
@@ -26,7 +26,7 @@ const CompareSlice = createSlice({
             },
         removeCompare: (state, action) => {
             const {payload} = action;
-            const index = state.products.findIndex(item => item.id === payload.id)
+            const index = state.products.findIndex(item  => item.id === payload)
             state.products.splice(index, 1)
 
         }

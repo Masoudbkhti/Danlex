@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation'
 import {useEffect, useState} from 'react';
 import {useRef} from "react";
-
+import CompareIcon from '@mui/icons-material/Compare';
 import {
     Dialog,
     DialogActions,
@@ -42,10 +42,15 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 export default function ProductCard({data}) {
 
+    //LoadingButton
+    const [loadingButton, setLoadingButton] = React.useState(true);
+
+
     //Loading on Redirect
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const handleClick = useCallback(() => {
+        setLoadingButton(true);
         setLoading(true);
 
             router.push('/compare');
@@ -140,10 +145,21 @@ export default function ProductCard({data}) {
                     </DialogContent>
                     <DialogActions>
 
+
+                        {/*<LoadingButton*/}
+                        {/*    onClick={handleClick}*/}
+                        {/*    endIcon={<CompareIcon />}*/}
+                        {/*    loading={loading}*/}
+                        {/*    loadingPosition="end"*/}
+                        {/*    variant="contained"*/}
+                        {/*>*/}
+                        {/*    <span>مشاهده مقایسه</span>*/}
+                        {/*</LoadingButton>*/}
                         { loading  ? (
                             <LoadingButton
                                 loading
                                 loadingPosition="end"
+                                // startIcon={<CompareIcon />}
                             >
                                 <Typography component="p" sx={{marginRight:"20px"}}>مشاهده مقایسه</Typography>
                             </LoadingButton>
