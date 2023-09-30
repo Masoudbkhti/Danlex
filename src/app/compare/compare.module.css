@@ -1,10 +1,21 @@
 .tableContainer {
   border-collapse: collapse;
-    margin: 20px;
+    width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+
 }
 .tdCell {
     border-right: 1px solid #C7C7C9;
     border-left: 1px solid #C7C7C9;
+    padding: 10px;
+    text-align: center;
+}
+.tdCellEnd {
+    border-right: 1px solid #C7C7C9;
+    border-left: 1px solid #C7C7C9;
+    border-bottom: 1px solid #C7C7C9;
     padding: 10px;
     text-align: center;
 }
@@ -16,6 +27,8 @@
 }
 .tdDiv {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 .thCell {
@@ -26,6 +39,7 @@
     padding: 10px;
 
 }
+
 .trCell:nth-child(even) {
     background-color: #F7F7F8;
 }

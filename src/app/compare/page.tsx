@@ -13,15 +13,19 @@ import {right} from "@popperjs/core";
 import styles from "./compare.module.css";
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
-
+import {useRouter} from "next/navigation";
 export default function ComparePage() {
+    const router = useRouter();
     const dispatch = useDispatch();
     const { products } = useSelector((store) => store.Compare);
-
+    console.log(products)
     const handleRemoveFromCompare = useCallback((productId) => {
         dispatch(removeCompare(productId));
     }, []);
 
+    const handleRedirectToProduct = useCallback((productUrl)=>{
+        router.push(`/product/${encodeURIComponent(productUrl)}`)
+    },[])
 
     //Table
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -82,15 +86,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                         {products.map((item: { title: string, id: number, image: string }) => {
                             return (
                         <td className={styles.tdImg} key={item.id}>
-                            <div className={styles.tdDiv}  >
-                                <Tooltip title="حذف از مقایسه" >
-                                    <IconButton  aria-label="delete" sx={{width:"40px", color:"#D61C38"}} onClick={() => handleRemoveFromCompare(item.id)} >
-                                        <ClearIcon   />
-                                    </IconButton>
+                            <div>
+                                <div style={{display:"flex", justifyContent:"flex-start", alignItems:"flex-start"}}>
+                                    <Tooltip title="حذف از مقایسه" >
+                                        <IconButton  aria-label="delete" sx={{width:"40px", color:"#D61C38"}} onClick={() => handleRemoveFromCompare(item.id)} >
+                                            <ClearIcon   />
+                                        </IconButton>
 
-                            </Tooltip>
+                                    </Tooltip>
+                                </div>
+                                <div className={styles.tdDiv}>
+                                    <img style={{width:"300px"}} key={item.id} src={item.image} alt={item.title}/>
 
-                                <img key={item.id} src={item.image} alt={item.title}/>
+                                </div>
+
+
                             </div>
 
                         </td>
@@ -102,10 +112,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                             return (
                                 <tr className={styles.trCell} key={item.id}>
                                 <td style={{padding:'10px'}}>
-                                    <p>دسته بندی</p>
+                                    <p style={{fontWeight:"bold"}}>{item.category}</p>
                                 </td>
                                     {Object.entries(item).map(([key, value]) => {
-                                        if (key !== "image" && key !== "id") {
+                                        if (key !== "image" && key !== "id" && key !== "category" && key !== "isDuplicate") {
                                             return (
                                                 <td key={key} className={styles.tdCell}>
                                                     {value}
@@ -116,8 +126,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                                         }
                                     })}
                                 </tr>
+
+
                             );
                         })}
+
+
+                    <tr className={styles.trCell}>
+
+                            <td></td>
+                        {
+                            products.map((item:{id:number}) => {
+                                return(
+                                    <td key={item.id} className={styles.tdCellEnd}>
+                                        <Button onClick={()=> handleRedirectToProduct(item.title)}>
+                                            مشاهده محصول
+                                        </Button>
+                                    </td>
+                                )
+                            })
+                        }
+                    </tr>
+
+
+
+
 
                     </tbody>
                 </table>
@@ -133,50 +166,3 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     );
 }
 
-// <TableContainer component={Paper} sx={{p:"20px"}}>
-//     <Table sx={{ minWidth: 700 }} aria-label="customized table">
-//         <TableHead>
-//             <TableRow>
-//
-//                 <StyledTableCell variant="head">
-//
-//                 </StyledTableCell>
-//                 <StyledTableCell>
-//                     <Grid container sx={{p:"20px"}} spacing={2}>
-//                         {products.map((item) => (
-//                             <Grid item lg={3} md={3} sm={6} xs={12}  key={item.id}>
-//
-//                                 <Paper elevation={2} sx={{p:"10px"}}>
-//
-//                                     <Box style={{ display: "flex", flexDirection: "column" }}>
-//                                         <img src={item.image} alt={item.title}></img>
-//                                         {item.title}
-//                                         <Button onClick={() => handleRemoveFromCompare(item.id)}>حذف از مقایسه</Button>
-//                                     </Box>
-//                                 </Paper>
-//                             </Grid>
-//                         ))}
-//                     </Grid>
-//                 </StyledTableCell>
-//             </TableRow>
-//
-//         </TableHead>
-//         <TableBody>
-//
-//             {products.map((row : {id: number, title: string, power: string, category: string}) => (
-//
-//                 <StyledTableRow key={row.id}>
-//                     <StyledTableCell  component="th" scope="row">
-//                         {row.title}
-//                     </StyledTableCell>
-//                     <StyledTableCell  component="th" scope="row">
-//                         {row.title}
-//                     </StyledTableCell>
-//                 </StyledTableRow>
-//
-//
-//             ))}
-//
-//         </TableBody>
-//     </Table>
-// </TableContainer>
