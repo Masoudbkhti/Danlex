@@ -3,22 +3,22 @@ import { useSelector } from "react-redux";
 import { removeCompare } from "@/redux/features/CompareSlice";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import {Box, Grid, IconButton, Paper, Table, TableContainer, TableHead, TableRow, Typography} from "@mui/material";
+import {IconButton, TableRow, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import {right} from "@popperjs/core";
 import styles from "./compare.module.css";
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
 import {useRouter} from "next/navigation";
+import {isKeyObject} from "util/types";
 export default function ComparePage() {
     const router = useRouter();
     const dispatch = useDispatch();
     const { products } = useSelector((store) => store.Compare);
-    console.log(products)
+    const uniqueSpecifics = [...new Set(products.flatMap(product => Object.values(product.specifics)))];
+
     const handleRemoveFromCompare = useCallback((productId) => {
         dispatch(removeCompare(productId));
     }, []);
@@ -26,6 +26,9 @@ export default function ComparePage() {
     const handleRedirectToProduct = useCallback((productUrl)=>{
         router.push(`/product/${encodeURIComponent(productUrl)}`)
     },[])
+
+
+
 
     //Table
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -107,36 +110,83 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                             );
                         })}
                     </tr>
+                    <tr className={styles.trCol}>
 
-                        {products.map((item: { title: string, id: number, image: string, category: string }) => {
+                        {uniqueSpecifics.map((item) => {
+
                             return (
-                                <tr className={styles.trCell} key={item.id}>
-                                <td style={{padding:'10px'}}>
-                                    <p style={{fontWeight:"bold"}}>{item.category}</p>
-                                </td>
-                                    {Object.entries(item).map(([key, value]) => {
-                                        if (key !== "image" && key !== "id" && key !== "category" && key !== "isDuplicate") {
-                                            return (
-                                                <td key={key} className={styles.tdCell}>
-                                                    {value}
-                                                </td>
-                                            );
-                                        } else {
-                                            return null;
-                                        }
-                                    })}
-                                </tr>
-
-
-                            );
+                                    <td style={{padding:'10px'}} className={styles.trTd} key={item}>
+                                        <p style={{fontWeight:"bold"}}>{item}</p>
+                                    </td>
+                            )
                         })}
+                    </tr>
+
+
+                    {
+                        products.map((col:{id: number, specifics: any}) => {
+                            return (
+                                <tr className={styles.trCol} key={col.id}>
+
+                                    {
+                                        uniqueSpecifics.map((item: any, index) => {
+                                            const cellValue = col[Object.keys(col.specifics).find((key) => col.specifics[key] === item)]
+                                            console.log(cellValue)
+                                            return (
+                                                    <td
+                                                        style={{ padding: "10px", textAlign: "center" }}
+                                                        key={index}
+                                                        className={styles.trTd}
+                                                    >
+                                                        {
+
+                                                            cellValue ? cellValue : "-"
+                                                         }
+
+                                                    </td>
+                                                )
+
+                                        })
+                                    }
+
+                                </tr>
+                            )
+                        })
+                    }
+
+                    {/*{*/}
+                    {/*    products.map((col: {id: number, specifics:any}) => {*/}
+                    {/*        return(*/}
+                    {/*            <tr className={styles.trCol} key={col.id}>*/}
+                    {/*                {Object.entries(col).map(([key, value]) => {*/}
+                    {/*                    if ( key !== "image" && key !== "id" && key !== "category" && key !== "isDuplicate" && key !== "specifics")*/}
+                    {/*                    {*/}
+                    {/*                        return (*/}
+
+                    {/*                            <td style={{padding:'10px', textAlign:"center"}}  key={key} className={styles.trTd}>*/}
+                    {/*                                {*/}
+                    {/*                                    value*/}
+                    {/*                                }*/}
+                    {/*                                /!*{*!/*/}
+                    {/*                                /!*  // uniqueSpecifics.every((spec, index) => spec === col.specifics[index]) ? (value):("-")*!/*/}
+                    {/*                                /!*}*!/*/}
+                    {/*                            </td>*/}
+                    {/*                        );*/}
+                    {/*                    }*/}
+
+                    {/*                })}*/}
+
+                    {/*            </tr>*/}
+                    {/*        )*/}
+                    {/*    })*/}
+                    {/*}*/}
 
 
                     <tr className={styles.trCell}>
 
                             <td></td>
                         {
-                            products.map((item:{id:number}) => {
+                            products.map((item:{id:number, title: string}) => {
                                 return(
                                     <td key={item.id} className={styles.tdCellEnd}>
                                         <Button onClick={()=> handleRedirectToProduct(item.title)}>
