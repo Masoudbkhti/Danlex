@@ -1,6 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {DRILLS} from "@/lib/data.ts";
-import {isDirty} from "zod";
+
 
 const CompareSlice = createSlice({
     name: "Compare",

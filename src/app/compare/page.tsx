@@ -12,7 +12,7 @@ import styles from "./compare.module.css";
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
 import {useRouter} from "next/navigation";
-import {isKeyObject} from "util/types";
+
 export default function ComparePage() {
     const router = useRouter();
     const dispatch = useDispatch();
@@ -153,33 +153,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
                             )
                         })
                     }
-
-                    {/*{*/}
-                    {/*    products.map((col: {id: number, specifics:any}) => {*/}
-                    {/*        return(*/}
-                    {/*            <tr className={styles.trCol} key={col.id}>*/}
-                    {/*                {Object.entries(col).map(([key, value]) => {*/}
-                    {/*                    if ( key !== "image" && key !== "id" && key !== "category" && key !== "isDuplicate" && key !== "specifics")*/}
-                    {/*                    {*/}
-                    {/*                        return (*/}
-
-                    {/*                            <td style={{padding:'10px', textAlign:"center"}}  key={key} className={styles.trTd}>*/}
-                    {/*                                {*/}
-                    {/*                                    value*/}
-                    {/*                                }*/}
-                    {/*                                /!*{*!/*/}
-                    {/*                                /!*  // uniqueSpecifics.every((spec, index) => spec === col.specifics[index]) ? (value):("-")*!/*/}
-                    {/*                                /!*}*!/*/}
-                    {/*                            </td>*/}
-                    {/*                        );*/}
-                    {/*                    }*/}
-
-                    {/*                })}*/}
-
-                    {/*            </tr>*/}
-                    {/*        )*/}
-                    {/*    })*/}
-                    {/*}*/}
 
 
                     <tr className={styles.trCell}>

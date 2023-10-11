@@ -26,10 +26,11 @@ import Link from 'next/link'
 import Zoom from '@mui/material/Zoom';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
+import {useDispatch} from "react-redux";
+import {addToSearch} from "@/redux/features/SearchSlice.ts";
 
 export default function NavBar(){
-
+    const dispatch = useDispatch();
 
 
     //Tabs
@@ -80,6 +81,15 @@ export default function NavBar(){
             },
         },
     }));
+
+    let timeoutId : any;
+    function handleSearch(e: any){
+        const searchTerm = e.target.value;
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(function () {
+            dispatch(addToSearch(searchTerm));
+        }, 1000);
+    }
     //popover
     const [anchorEl, setAnchorEl] = React.useState<
         HTMLButtonElement | null
@@ -366,6 +376,7 @@ export default function NavBar(){
                 <StyledInputBase
                     placeholder="جستجو…"
                     inputProps={{ 'aria-label': 'search' }}
+                    onKeyUp={handleSearch}
                 />
             </Search>
 
