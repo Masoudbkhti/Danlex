@@ -436,7 +436,7 @@ export default function NavBar(){
 
 
                             searchResults.map((item) => (
-                                <Link style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/${item.id}`}>{item.title}</Link>
+                                <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
                             ))
                             ) : (
                                 <Typography variant="h4" component="p">محصولی مطابق جستجو شما پیدا نشد.</Typography>
