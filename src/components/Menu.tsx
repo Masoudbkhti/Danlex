@@ -11,7 +11,7 @@ import {
     Box,
     Popper,
     Fade,
-    useScrollTrigger, Fab, Toolbar
+    useScrollTrigger, Fab, Toolbar, Modal
 } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
@@ -28,7 +28,8 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useDispatch} from "react-redux";
 import {addToSearch} from "@/redux/features/SearchSlice.ts";
-
+import {useState} from "react";
+import {SearchItems} from '@/utils/SearchItems.ts'
 export default function NavBar(){
     const dispatch = useDispatch();
 
@@ -82,13 +83,35 @@ export default function NavBar(){
         },
     }));
 
+    const [searchPopover, setSearchPopover] = useState(false)
+    const [searchResults, setSearchResults] = useState([{}])
+    const [openModal, setOpenModal] = React.useState(false);
+    const handleCloseModal = () => setOpenModal(false);
+
+    const styleModal = {
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
     let timeoutId : any;
     function handleSearch(e: any){
-        const searchTerm = e.target.value;
+        const inputValue = e.target.value;
         clearTimeout(timeoutId);
         timeoutId = setTimeout(function () {
-            dispatch(addToSearch(searchTerm));
-        }, 1000);
+            const searchResults = SearchItems(inputValue);
+            setSearchResults(searchResults)
+            setSearchPopover(true);
+            setOpenModal(true)
+
+        }, 2000);
     }
     //popover
     const [anchorEl, setAnchorEl] = React.useState<
@@ -179,6 +202,7 @@ export default function NavBar(){
 <>
         <Paper elevation={1} square onMouseLeave={handleCloseMenu} sx={{width:"100%", height:"auto", display:"flex", justifyContent:"space-between", alignItems:"center", paddingX:"20%", zIndex:"99"}}
         >
+
 
 
             <Box sx={{display:"flex", justifyContent:"flex-start", alignItems:"center",gap:"10px", width:"80%"}}>
@@ -377,13 +401,66 @@ export default function NavBar(){
                     placeholder="جستجو…"
                     inputProps={{ 'aria-label': 'search' }}
                     onKeyUp={handleSearch}
+
+
+
+                    // aria-describedby={id2}
                 />
+
+
+                {/*<Popover*/}
+                {/*    id="menu4Popover"*/}
+                {/*    open={open2}*/}
+                {/*    onClose={handlePopover2Close}*/}
+                {/*    anchorEl={anchorEl2}*/}
+                {/*    anchorOrigin={{*/}
+                {/*        vertical: 'bottom',*/}
+                {/*        horizontal: 'right',*/}
+                {/*    }}*/}
+                {/*    transformOrigin={{*/}
+                {/*        vertical: 'top',*/}
+                {/*        horizontal: 'right',*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>*/}
+
+                {/*</Popover>*/}
             </Search>
+            {
+                searchPopover &&
+                <Modal
+                    open={openModal}
+                    onClose={handleCloseModal}
+                    disableScrollLock
+
+                >
+                    <Paper sx={styleModal}>
+                        {
+                            searchResults.length > 0 ? (
+
+
+                            searchResults.map((item) => (
+                                <Link style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/${item.id}`}>{item.title}</Link>
+                            ))
+                            ) : (
+                                <Typography variant="h4" component="p">محصولی مطابق جستجو شما پیدا نشد.</Typography>
+                            )
+
+
+
+                        }
+                    </Paper>
+                </Modal>
+
+
+            }
+
 
 
             <Toolbar id="back-to-top-anchor" />
 
         </Paper>
+
 
     <ScrollTop >
         <Fab size="small" aria-label="scroll back to top">

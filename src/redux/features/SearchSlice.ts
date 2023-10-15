@@ -1,27 +1,24 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {PRODUCTS} from "@/lib/data.ts";
 import {digitsEnToFa} from "@persian-tools/persian-tools";
-const productsTitle = PRODUCTS.map((item)=> item.title)
-console.log(productsTitle)
-
+const productsDetail: Array<{id: number, title: string}>=  PRODUCTS.map((item) => ({id:item.id, title: item.title}))
 const SearchSlice = createSlice({
     name:"Search",
     initialState:{
-        searchItems: [
-            {
-            }
-        ],
+        searchItems: []
+
+
     },
     reducers:{
         addToSearch: (state, action) => {
             const {payload} = action;
-            const filteredProducts = productsTitle.filter((item) => {
+            const filteredProducts = productsDetail.filter((item) => {
                 const searchTerm = digitsEnToFa(payload.toLocaleLowerCase());
-                const productTitle = digitsEnToFa(item.toLocaleLowerCase());
+                const productTitle = digitsEnToFa(item.title.toLocaleLowerCase());
                 return productTitle.includes(searchTerm);
             });
-            console.log(filteredProducts, "filteredproducts")
-
+            const index = state.searchItems.findIndex((item) => item.id === fi)
+            filteredProducts.map((item) => state.searchItems.push(item))
 }
     }
 })
