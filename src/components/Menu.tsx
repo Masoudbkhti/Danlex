@@ -11,7 +11,7 @@ import {
     Box,
     Popper,
     Fade,
-    useScrollTrigger, Fab, Toolbar, Modal
+    useScrollTrigger, Fab, Toolbar, Modal, CircularProgress
 } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
@@ -28,7 +28,7 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useDispatch} from "react-redux";
 import {addToSearch} from "@/redux/features/SearchSlice.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {SearchItems} from '@/utils/SearchItems.ts'
 export default function NavBar(){
     const dispatch = useDispatch();
@@ -83,9 +83,9 @@ export default function NavBar(){
         },
     }));
 
-    const [searchPopover, setSearchPopover] = useState(false)
     const [searchResults, setSearchResults] = useState([{}])
     const [openModal, setOpenModal] = React.useState(false);
+    const [loading, setLoading] =useState(false)
     const handleCloseModal = () => setOpenModal(false);
 
     const styleModal = {
@@ -97,22 +97,31 @@ export default function NavBar(){
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
+        outline: 'none',
         boxShadow: 24,
         p: 4,
     };
     let timeoutId : any;
+
     function handleSearch(e: any){
         const inputValue = e.target.value;
         clearTimeout(timeoutId);
+
         timeoutId = setTimeout(function () {
+            setLoading(true)
             const searchResults = SearchItems(inputValue);
             setSearchResults(searchResults)
-            setSearchPopover(true);
             setOpenModal(true)
 
-        }, 2000);
+        }, 1500);
+
     }
+
+    useEffect(() => {
+
+            setLoading(false)
+
+    },[openModal])
     //popover
     const [anchorEl, setAnchorEl] = React.useState<
         HTMLButtonElement | null
@@ -199,7 +208,15 @@ export default function NavBar(){
 
 
     return(
-<>
+<div>
+
+    {loading && (
+        <div className="overlay">
+
+                <CircularProgress />
+
+        </div>
+    )}
         <Paper elevation={1} square onMouseLeave={handleCloseMenu} sx={{width:"100%", height:"auto", display:"flex", justifyContent:"space-between", alignItems:"center", paddingX:"20%", zIndex:"99"}}
         >
 
@@ -401,33 +418,12 @@ export default function NavBar(){
                     placeholder="جستجو…"
                     inputProps={{ 'aria-label': 'search' }}
                     onKeyUp={handleSearch}
-
-
-
-                    // aria-describedby={id2}
                 />
 
 
-                {/*<Popover*/}
-                {/*    id="menu4Popover"*/}
-                {/*    open={open2}*/}
-                {/*    onClose={handlePopover2Close}*/}
-                {/*    anchorEl={anchorEl2}*/}
-                {/*    anchorOrigin={{*/}
-                {/*        vertical: 'bottom',*/}
-                {/*        horizontal: 'right',*/}
-                {/*    }}*/}
-                {/*    transformOrigin={{*/}
-                {/*        vertical: 'top',*/}
-                {/*        horizontal: 'right',*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>*/}
 
-                {/*</Popover>*/}
             </Search>
             {
-                searchPopover &&
                 <Modal
                     open={openModal}
                     onClose={handleCloseModal}
@@ -467,6 +463,6 @@ export default function NavBar(){
             <KeyboardArrowUpIcon />
         </Fab>
     </ScrollTop>
-</>
+</div>
     )
 }
