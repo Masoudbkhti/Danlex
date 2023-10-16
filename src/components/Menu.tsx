@@ -11,7 +11,16 @@ import {
     Box,
     Popper,
     Fade,
-    useScrollTrigger, Fab, Toolbar, Modal, CircularProgress
+    useScrollTrigger,
+    Fab,
+    Toolbar,
+    Modal,
+    CircularProgress,
+    DialogTitle,
+    IconButton,
+    DialogContent,
+    DialogActions,
+    Dialog
 } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
@@ -27,12 +36,22 @@ import Zoom from '@mui/material/Zoom';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useDispatch} from "react-redux";
-import {addToSearch} from "@/redux/features/SearchSlice.ts";
 import {useEffect, useState} from "react";
 import {SearchItems} from '@/utils/SearchItems.ts'
-export default function NavBar(){
-    const dispatch = useDispatch();
+import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 
+
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+
+}));
+export default function NavBar(){
 
     //Tabs
     const [value, setValue] = React.useState(0);
@@ -83,10 +102,11 @@ export default function NavBar(){
         },
     }));
 
+
     const [searchResults, setSearchResults] = useState([{}])
     const [openModal, setOpenModal] = React.useState(false);
     const [loading, setLoading] =useState(false)
-    const handleCloseModal = () => setOpenModal(false);
+    const handleCloseModal = () => {setOpenModal(false)};
 
     const styleModal = {
         display: 'flex',
@@ -424,29 +444,77 @@ export default function NavBar(){
 
             </Search>
             {
-                <Modal
-                    open={openModal}
-                    onClose={handleCloseModal}
-                    disableScrollLock
+                // <Modal
+                //     open={openModal}
+                //     onClose={handleCloseModal}
+                //     disableScrollLock
+                //
+                // >
+                //     <Paper sx={styleModal}>
+                //         {
+                //             searchResults.length > 0 ? (
+                //
+                //
+                //             searchResults.map((item) => (
+                //                 <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
+                //             ))
+                //             ) : (
+                //                 <Typography variant="h4" component="p">محصولی مطابق جستجو شما پیدا نشد.</Typography>
+                //             )
+                //
+                //
+                //
+                //         }
+                //     </Paper>
+                // </Modal>
+                <BootstrapDialog
+                onClose={handleCloseModal}
+                aria-labelledby="customized-dialog-title"
+                open={openModal}
+                disableScrollLock={ true }
+        >
 
-                >
-                    <Paper sx={styleModal}>
-                        {
-                            searchResults.length > 0 ? (
 
-
-                            searchResults.map((item) => (
-                                <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
-                            ))
-                            ) : (
-                                <Typography variant="h4" component="p">محصولی مطابق جستجو شما پیدا نشد.</Typography>
-                            )
+                        <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
+                           محصولات زیر یافت شد:
+                        </DialogTitle>
 
 
 
-                        }
-                    </Paper>
-                </Modal>
+
+            <IconButton
+                aria-label="close"
+                onClick={handleCloseModal}
+                sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                }}
+            >
+                <CloseIcon />
+            </IconButton>
+            <DialogContent dividers>
+
+                <Box sx={{display:"flex", flexDirection:"column",width:{md:"500px", xs:"fit-content"}, gap:"10px"}}>
+                  {
+                   searchResults.length > 0 ? (
+
+
+                   searchResults.map((item) => (
+                                  <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
+                               ))
+                                 ) : (
+                                     <Typography variant="h4" component="p" gutterBottom>محصولی مطابق جستجو شما پیدا نشد.</Typography>
+                                )
+
+
+
+                            }
+                        </Box>
+            </DialogContent>
+
+        </BootstrapDialog>
 
 
             }

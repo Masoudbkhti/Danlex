@@ -7,9 +7,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation'
-import {useEffect, useState} from 'react';
-import {useRef} from "react";
-import CompareIcon from '@mui/icons-material/Compare';
+import { useState} from 'react';
+
 import {
     Dialog,
     DialogActions,
