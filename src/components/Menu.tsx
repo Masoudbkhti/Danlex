@@ -4,24 +4,23 @@ import {
     Tabs,
     Tab,
     InputBase,
-    Popover,
+
     Typography,
     Grid,
-    Item,
     Box,
     Popper,
     Fade,
     useScrollTrigger,
     Fab,
     Toolbar,
-    Modal,
+
     CircularProgress,
     DialogTitle,
     IconButton,
     DialogContent,
-    DialogActions,
-    Dialog
-} from '@mui/material';
+
+    Dialog} from '@mui/material';
+import {useRouter} from "next/navigation";
 
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
@@ -36,7 +35,7 @@ import Zoom from '@mui/material/Zoom';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useDispatch} from "react-redux";
-import {useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import {SearchItems} from '@/utils/SearchItems.ts'
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
 
@@ -55,7 +54,7 @@ export default function NavBar(){
 
     //Tabs
     const [value, setValue] = React.useState(0);
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    const handleChange = (event: React.SyntheticEvent, newValue: any) => {
         setValue(newValue);
     };
     //Search
@@ -122,18 +121,22 @@ export default function NavBar(){
         p: 4,
     };
     let timeoutId : any;
+    const router = useRouter();
 
-    function handleSearch(e: any){
-        const inputValue = e.target.value;
+    function handleSearch(e:any){
+        const inputValue:any = e.target.value;
         clearTimeout(timeoutId);
 
         timeoutId = setTimeout(function () {
             setLoading(true)
-            const searchResults = SearchItems(inputValue);
-            setSearchResults(searchResults)
-            setOpenModal(true)
+            // const searchResults = SearchItems(inputValue);
+            // setSearchResults(searchResults)
+            // setOpenModal(true)
+            router.push(`/search/search/?inputValue=${inputValue}`);
+            setLoading(false)
 
         }, 1500);
+
 
     }
 
@@ -256,7 +259,7 @@ export default function NavBar(){
                 <Tab
                     aria-owns={anchorEl ? "simple-menu" : undefined}
                     aria-haspopup="true"
-                    onMouseOver={(event) => handleTabHover(event, 0)}
+                    onMouseOver={(event: any) => handleTabHover(event, 0)}
                     sx={{ fontFamily: 'Vazirmatn'}}
                     icon={<HardwareIcon />}
                     label="ابزار برقی"
@@ -264,7 +267,7 @@ export default function NavBar(){
                 <Tab
                     aria-owns={anchorEl ? "simple-menu" : undefined}
                     aria-haspopup="true"
-                    onMouseOver={(event) => handleTabHover(event, 1)}
+                    onMouseOver={(event: any) => handleTabHover(event, 1)}
 
 
                     sx={{ fontFamily: 'Vazirmatn'}}
@@ -273,7 +276,7 @@ export default function NavBar(){
                     label="ابزار شارژی"
                 />
                 <Tab
-                    onMouseOver={(event) => handleTabHover(event, 2)}
+                    onMouseOver={(event: any) => handleTabHover(event, 2)}
 
                     sx={{ fontFamily: 'Vazirmatn' }}
                     icon={<BuildIcon />}
@@ -281,7 +284,7 @@ export default function NavBar(){
                     label="ابزار بنزینی"
                 />
                 <Tab
-                    onMouseOver={(event) => handleTabHover(event, 3)}
+                    onMouseOver={(event: any) => handleTabHover(event, 3)}
 
                     sx={{ fontFamily: 'Vazirmatn' }}
                     icon={<PlumbingIcon />}
@@ -501,7 +504,7 @@ export default function NavBar(){
                    searchResults.length > 0 ? (
 
 
-                   searchResults.map((item) => (
+                   searchResults.map((item: any) => (
                                   <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
                                ))
                                  ) : (
