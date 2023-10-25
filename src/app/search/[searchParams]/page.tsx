@@ -5,6 +5,7 @@ import * as React from "react";
 import {SearchItems} from '@/utils/SearchItems.ts'
 import Tabs from './components/Tabs.tsx'
 import {searchResultType} from "@/lib/types.ts";
+import {digitsEnToFa} from "@persian-tools/persian-tools";
 
 export default function Search() {
     const searchParams = useSearchParams()
@@ -18,7 +19,7 @@ export default function Search() {
         <Box sx={{py:"80px", px:"20%"}}>
 
         <Box>
-            <Typography variant="h2" component="h2">{searchResult.length} محصول مطابق جستجوی کلمه "{inputValue}" پیدا شد.</Typography>
+            <Typography variant="h2" component="h2">{digitsEnToFa(searchResult.length)} محصول مطابق جستجوی کلمه "{inputValue}" پیدا شد.</Typography>
         </Box>
 
             <Box sx={{display:"flex", py:"50px"}}>
