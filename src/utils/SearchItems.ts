@@ -6,7 +6,7 @@ const productsDetail: Array<{ id: number; title: string }> = PRODUCTS.map((item)
     title: item.title,
 }));
 
-export function SearchItems(inputValue: string) {
+export function SearchItems(inputValue: any) {
     return productsDetail.filter((item) => {
         const searchTerm = digitsEnToFa(inputValue.toLocaleLowerCase());
         const productTitle = digitsEnToFa(item.title.toLocaleLowerCase());
