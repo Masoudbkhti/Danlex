@@ -132,7 +132,7 @@ export default function NavBar(){
             // const searchResults = SearchItems(inputValue);
             // setSearchResults(searchResults)
             // setOpenModal(true)
-            router.push(`/search/search/?inputValue=${inputValue}`);
+            router.push(`/search?inputValue=${inputValue}`);
             setLoading(false)
 
         }, 1500);

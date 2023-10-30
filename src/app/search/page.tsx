@@ -3,7 +3,7 @@ import {Box, Typography} from "@mui/material"
 import {useSearchParams} from "next/navigation";
 import * as React from "react";
 import {SearchItems} from '@/utils/SearchItems.ts'
-import Tabs from './components/Tabs.tsx'
+import Tabs from '@/app/search/components/Tabs.tsx'
 import {searchResultType} from "@/lib/types.ts";
 import {digitsEnToFa} from "@persian-tools/persian-tools";
 
