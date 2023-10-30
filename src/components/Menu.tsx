@@ -21,7 +21,7 @@ import {
 
     Dialog} from '@mui/material';
 import {useRouter} from "next/navigation";
-
+import {useSearchParams} from "next/navigation";
 import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { Search} from "@mui/icons-material";
@@ -106,7 +106,7 @@ export default function NavBar(){
     const [openModal, setOpenModal] = React.useState(false);
     const [loading, setLoading] =useState(false)
     const handleCloseModal = () => {setOpenModal(false)};
-
+    const params = useSearchParams();
     const styleModal = {
         display: 'flex',
         flexDirection: 'column',
@@ -128,23 +128,23 @@ export default function NavBar(){
         clearTimeout(timeoutId);
 
         timeoutId = setTimeout(function () {
-            setLoading(true)
             // const searchResults = SearchItems(inputValue);
             // setSearchResults(searchResults)
             // setOpenModal(true)
             router.push(`/search?inputValue=${inputValue}`);
-            setLoading(false)
 
         }, 1500);
-
-
+        setTimeout(()=>{
+            setLoading(true)
+        },1501);
     }
-
     useEffect(() => {
 
-            setLoading(false)
+        setLoading(false)
 
-    },[openModal])
+    },[params])
+
+
     //popover
     const [anchorEl, setAnchorEl] = React.useState<
         HTMLButtonElement | null
