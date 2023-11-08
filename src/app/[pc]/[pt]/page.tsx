@@ -1,7 +1,7 @@
 interface pageProps {
     params: {pt:string}
 }
-export default function Product({params}) {
+export default function Product({params}:pageProps) {
 
     return(
         <div>

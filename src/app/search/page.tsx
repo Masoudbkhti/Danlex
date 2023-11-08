@@ -11,7 +11,7 @@ export default function Search() {
     const searchParams = useSearchParams()
     // const [searchResults, setSearchResults] = useState([{}])
 
-    const inputValue = searchParams.get('inputValue')
+    const inputValue = searchParams.get('q')
 
     const searchResult:Array<searchResultType> = SearchItems(inputValue)
 

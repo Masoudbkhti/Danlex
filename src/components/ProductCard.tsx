@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/navigation'
 import { useState} from 'react';
-
 import {
     Dialog,
     DialogActions,
@@ -25,6 +24,7 @@ import {useCallback} from "react";
 import {addToCompare} from "@/redux/features/CompareSlice.ts";
 import {useSelector} from "react-redux";
 import {LoadingButton} from "@mui/lab";
+import store from "@/redux/store.ts";
 
 
 

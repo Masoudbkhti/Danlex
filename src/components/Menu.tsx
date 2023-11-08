@@ -122,26 +122,16 @@ export default function NavBar(){
     };
     let timeoutId : any;
     const router = useRouter();
-
     function handleSearch(e:any){
         const inputValue:any = e.target.value;
         clearTimeout(timeoutId);
-
         timeoutId = setTimeout(function () {
-            // const searchResults = SearchItems(inputValue);
-            // setSearchResults(searchResults)
-            // setOpenModal(true)
-            router.push(`/search?inputValue=${inputValue}`);
-
-        }, 1500);
-        setTimeout(()=>{
-            setLoading(true)
-        },1501);
+                router.push(`/search?q=${inputValue}`);
+                setLoading(true)
+        }, 2500);
     }
     useEffect(() => {
-
         setLoading(false)
-
     },[params])
 
 
@@ -440,7 +430,7 @@ export default function NavBar(){
                 <StyledInputBase
                     placeholder="جستجو…"
                     inputProps={{ 'aria-label': 'search' }}
-                    onKeyUp={handleSearch}
+                    onChange={handleSearch}
                 />
 
 
@@ -470,54 +460,54 @@ export default function NavBar(){
                 //         }
                 //     </Paper>
                 // </Modal>
-                <BootstrapDialog
-                onClose={handleCloseModal}
-                aria-labelledby="customized-dialog-title"
-                open={openModal}
-                disableScrollLock={ true }
-        >
-
-
-                        <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
-                           محصولات زیر یافت شد:
-                        </DialogTitle>
-
-
-
-
-            <IconButton
-                aria-label="close"
-                onClick={handleCloseModal}
-                sx={{
-                    position: 'absolute',
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                }}
-            >
-                <CloseIcon />
-            </IconButton>
-            <DialogContent dividers>
-
-                <Box sx={{display:"flex", flexDirection:"column",width:{md:"500px", xs:"fit-content"}, gap:"10px"}}>
-                  {
-                   searchResults.length > 0 ? (
-
-
-                   searchResults.map((item: any) => (
-                                  <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
-                               ))
-                                 ) : (
-                                     <Typography variant="h4" component="p" gutterBottom>محصولی مطابق جستجو شما پیدا نشد.</Typography>
-                                )
-
-
-
-                            }
-                        </Box>
-            </DialogContent>
-
-        </BootstrapDialog>
+        //         <BootstrapDialog
+        //         onClose={handleCloseModal}
+        //         aria-labelledby="customized-dialog-title"
+        //         open={openModal}
+        //         disableScrollLock={ true }
+        // >
+        //
+        //
+        //                 <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
+        //                    محصولات زیر یافت شد:
+        //                 </DialogTitle>
+        //
+        //
+        //
+        //
+        //     <IconButton
+        //         aria-label="close"
+        //         onClick={handleCloseModal}
+        //         sx={{
+        //             position: 'absolute',
+        //             right: 8,
+        //             top: 8,
+        //             color: (theme) => theme.palette.grey[500],
+        //         }}
+        //     >
+        //         <CloseIcon />
+        //     </IconButton>
+        //     <DialogContent dividers>
+        //
+        //         <Box sx={{display:"flex", flexDirection:"column",width:{md:"500px", xs:"fit-content"}, gap:"10px"}}>
+        //           {
+        //            searchResults.length > 0 ? (
+        //
+        //
+        //            searchResults.map((item: any) => (
+        //                           <Link onClick={handleCloseModal} style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
+        //                        ))
+        //                          ) : (
+        //                              <Typography variant="h4" component="p" gutterBottom>محصولی مطابق جستجو شما پیدا نشد.</Typography>
+        //                         )
+        //
+        //
+        //
+        //                     }
+        //                 </Box>
+        //     </DialogContent>
+        //
+        // </BootstrapDialog>
 
 
             }

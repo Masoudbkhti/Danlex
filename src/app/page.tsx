@@ -22,7 +22,7 @@ export default function App(){
 
                     <Grid item md={3} key={item.id}>
 
-                    <ProductCard  data={item} />
+                    <ProductCard data={item} />
 
                     </Grid>
                 ))}

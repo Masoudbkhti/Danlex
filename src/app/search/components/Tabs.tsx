@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from "next/link";
 import {searchResultType} from "@/lib/types.ts";
+import ProductSearchCart from "@/app/search/components/ProductSearchCart.tsx";
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -39,6 +40,7 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs({ searchResult }: { searchResult: Array<searchResultType> }) {
+    console.log(searchResult,"search result")
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -55,11 +57,13 @@ export default function BasicTabs({ searchResult }: { searchResult: Array<search
     </Tabs>
     </Box>
     <CustomTabPanel value={value} index={0}>
-        <Box sx={{display:"flex", flexDirection:"column",width:{md:"500px", xs:"fit-content"}, gap:"10px"}}>
+        <Box sx={{display:"flex", flexDirection:"column",width:"100%", gap:"10px"}}>
             {
                 searchResult.length > 0 ? (
                     searchResult.map((item: any) => (
-                        <Link style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>{item.title}</Link>
+                        <Link style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>
+                            <ProductSearchCart title={item.title} id={item.id}/>
+                        </Link>
                     ))
                 ) : (
                     <Typography variant="h4" component="p" gutterBottom>محصولی مطابق جستجو شما پیدا نشد.</Typography>
