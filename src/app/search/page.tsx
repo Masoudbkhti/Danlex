@@ -28,8 +28,14 @@ export default function Search() {
                 </Box>
                 <Box sx={{width:"80%"}}>
                     <Tabs searchResult={searchResult}/>
+
+
+
+
                 </Box>
             </Box>
+
+
         </Box>
 
     </>

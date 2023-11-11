@@ -6,6 +6,11 @@ import Box from '@mui/material/Box';
 import Link from "next/link";
 import {searchResultType} from "@/lib/types.ts";
 import ProductSearchCart from "@/app/search/components/ProductSearchCart.tsx";
+import {digitsEnToFa} from "@persian-tools/persian-tools";
+import {useEffect, useState} from "react";
+import Button from "@mui/material/Button";
+import LinearProgress from '@mui/material/LinearProgress';
+
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -40,7 +45,17 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs({ searchResult }: { searchResult: Array<searchResultType> }) {
-    console.log(searchResult,"search result")
+    const [displayLimit, setDisplayLimit] = useState(2);
+
+    const handleShowMore = () => {
+        setDisplayLimit(displayLimit + 2);
+    };
+    const progressPercentage = (((displayLimit <= searchResult.length ? displayLimit : (displayLimit - 1))) / searchResult.length) * 100;
+
+    useEffect(()=>{
+        setDisplayLimit(2)
+    },[searchResult])
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -58,17 +73,35 @@ export default function BasicTabs({ searchResult }: { searchResult: Array<search
     </Box>
     <CustomTabPanel value={value} index={0}>
         <Box sx={{display:"flex", flexDirection:"column",width:"100%", gap:"10px"}}>
-            {
-                searchResult.length > 0 ? (
-                    searchResult.map((item: any) => (
-                        <Link style={{marginBottom:"5px", textDecoration: "none"}} key={item.id} href={`/product/${item.title}`}>
-                            <ProductSearchCart title={item.title} id={item.id}/>
-                        </Link>
-                    ))
-                ) : (
-                    <Typography variant="h4" component="p" gutterBottom>محصولی مطابق جستجو شما پیدا نشد.</Typography>
-                )
-            }
+            {searchResult.length > 0 ? (
+                searchResult.slice(0, displayLimit).map((item: any) => (
+                    <Link
+                        style={{ marginBottom: "5px", textDecoration: "none" }}
+                        key={item.id}
+                        href={`/product/${item.title}`}
+                    >
+                        <ProductSearchCart title={item.title} id={item.id} />
+                    </Link>
+                ))
+            ) : (
+                <Typography variant="h4" component="p" gutterBottom>
+                    محصولی مطابق جستجو شما پیدا نشد.
+                </Typography>
+            )}
+
+        </Box>
+        <Box sx={{ display:"flex",flexDirection:"column", justifyContent:"center",alignItems:"center", marginTop:"50px" }}>
+
+            <Typography sx={{marginBottom:"20px"}}>
+                نمایش {digitsEnToFa(displayLimit <= searchResult.length ? displayLimit : (displayLimit - 1))} از {digitsEnToFa(searchResult.length)} نتیجه
+            </Typography>
+            <LinearProgress sx={{marginBottom:"20px", width:"200px"}} variant="determinate" value={progressPercentage} />
+
+            {searchResult.length > displayLimit && (
+                <Button onClick={handleShowMore} variant="contained" color="primary">
+                    نمایش بیشتر
+                </Button>
+            )}
         </Box>
     </CustomTabPanel>
     <CustomTabPanel value={value} index={1}>
