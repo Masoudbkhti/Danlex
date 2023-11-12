@@ -10,7 +10,7 @@ export default function ProductSearchCart ({title, id}) {
     const productData = PRODUCTS.find((item)=> item.id === id)
 
     return (
-        <Paper sx={{p:"10px", display:"flex", alignItems:"center"}}>
+        <Paper elevation={3} sx={{'&:hover': {boxShadow:"12"}, cursor:"pointer",p:"10px", display:"flex", alignItems:"center"}}>
             <Box>
                 <img style={{width:"200px"}} src={productData.image} alt={title} />
             </Box>

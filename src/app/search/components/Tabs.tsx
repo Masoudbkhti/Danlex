@@ -50,7 +50,8 @@ export default function BasicTabs({ searchResult }: { searchResult: Array<search
     const handleShowMore = () => {
         setDisplayLimit(displayLimit + 2);
     };
-    const progressPercentage = (((displayLimit <= searchResult.length ? displayLimit : (displayLimit - 1))) / searchResult.length) * 100;
+    const progressPercentage = (((searchResult.length === 0
+        ? 0 : displayLimit <= searchResult.length ? displayLimit : (displayLimit - 1))) / searchResult.length) * 100;
 
     useEffect(()=>{
         setDisplayLimit(2)
@@ -93,9 +94,15 @@ export default function BasicTabs({ searchResult }: { searchResult: Array<search
         <Box sx={{ display:"flex",flexDirection:"column", justifyContent:"center",alignItems:"center", marginTop:"50px" }}>
 
             <Typography sx={{marginBottom:"20px"}}>
-                نمایش {digitsEnToFa(displayLimit <= searchResult.length ? displayLimit : (displayLimit - 1))} از {digitsEnToFa(searchResult.length)} نتیجه
+                نمایش {digitsEnToFa(
+                searchResult.length === 0
+                    ? "0"
+                    : displayLimit <= searchResult.length
+                        ? displayLimit
+                        : displayLimit - 1
+            )} از {digitsEnToFa(searchResult.length)} نتیجه
             </Typography>
-            <LinearProgress sx={{marginBottom:"20px", width:"200px"}} variant="determinate" value={progressPercentage} />
+            <LinearProgress sx={{marginBottom:"20px", width:"200px",scale: "-1 1" }} variant="determinate" value={progressPercentage} />
 
             {searchResult.length > displayLimit && (
                 <Button onClick={handleShowMore} variant="contained" color="primary">
