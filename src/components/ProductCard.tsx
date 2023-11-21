@@ -25,6 +25,7 @@ import {addToCompare} from "@/redux/features/CompareSlice.ts";
 import {useSelector} from "react-redux";
 import {LoadingButton} from "@mui/lab";
 import store from "@/redux/store.ts";
+import {digitsEnToFa} from "@persian-tools/persian-tools";
 
 
 
@@ -69,6 +70,7 @@ export default function ProductCard({data}) {
     const handleAddToCompare = useCallback(()=> {
        setOpen(true);
        dispatch(addToCompare(data))
+
     },[])
 
     const [open, setOpen] = React.useState(false);
@@ -108,19 +110,56 @@ export default function ProductCard({data}) {
                     open={open}
                     disableScrollLock={ true }
                 >
+                    {/*{*/}
+                    {/*    products.length < 5  ?*/}
+                    {/*        (*/}
+                    {/*            isInCompare ? (*/}
+                    {/*                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">*/}
+                    {/*                        {data.title} به مقایسه اضافه شده است.*/}
+                    {/*                    </DialogTitle>*/}
+                    {/*                ) :*/}
+                    {/*                (*/}
+
+                    {/*                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">*/}
+                    {/*                        {data.title} به مقایسه اضافه شد.*/}
+                    {/*                    </DialogTitle>*/}
+                    {/*                )*/}
+                    {/*        ) : (*/}
+
+                    {/*                isInCompare ? (*/}
+                    {/*                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">*/}
+                    {/*                        {data.title} به مقایسه اضافه شده است.*/}
+                    {/*                    </DialogTitle>*/}
+                    {/*                ) : (*/}
+
+                    {/*                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">*/}
+                    {/*                           امکان مقایسه بیش از 5 محصول وجود ندارد.*/}
+                    {/*                      </DialogTitle>*/}
+                    {/*                )*/}
+
+
+                    {/*        )*/}
+
+                    {/*}*/}
+
                     {
-                        isInCompare ? (
+                        isInCompare  ?
+                            (
                                 <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
                                     {data.title} به مقایسه اضافه شده است.
                                 </DialogTitle>
-                            ) :
-                            (
+                            ) : (
+                                products.length < 5 ? (
+                                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
+                                        {data.title} به مقایسه اضافه شد.
+                                    </DialogTitle>
+                                    ) : (
 
-                    <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
-                        {data.title} به مقایسه اضافه شد.
-                    </DialogTitle>
-                        )
-
+                                  <DialogTitle sx={{ mr: 5, p: 2 }} id="customized-dialog-title">
+                                      {digitsEnToFa(5)} محصول به مقایسه اضافه شدند. امکان مقایسه بیش از {digitsEnToFa(5)} محصول وجود ندارد.
+                                  </DialogTitle>
+                                    )
+                            )
                     }
 
                     <IconButton
