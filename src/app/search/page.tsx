@@ -6,6 +6,7 @@ import {SearchItems} from '@/utils/SearchItems.ts'
 import Tabs from '@/app/search/components/Tabs.tsx'
 import {searchResultType} from "@/lib/types.ts";
 import {digitsEnToFa} from "@persian-tools/persian-tools";
+import ProductSearchFilter from "@/app/search/components/ProductSearchFilter.tsx";
 
 export default function Search() {
     const searchParams = useSearchParams()
@@ -24,14 +25,10 @@ export default function Search() {
 
             <Box sx={{display:"flex", py:"50px"}}>
                 <Box sx={{width:"20%"}}>
-
+                    <ProductSearchFilter searchResult={searchResult} />
                 </Box>
                 <Box sx={{width:"80%"}}>
                     <Tabs searchResult={searchResult}/>
-
-
-
-
                 </Box>
             </Box>
 
