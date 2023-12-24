@@ -4,6 +4,7 @@ import { PRODUCTS } from "@/lib/data.ts";
 const productsDetail: Array<{ id: number; title: string }> = PRODUCTS.map((item) => ({
     id: item.id,
     title: item.title,
+    category: item.category
 }));
 
 export function SearchItems(inputValue: any) {
