@@ -46,7 +46,6 @@ function a11yProps(index: number) {
 
 export default function BasicTabs({ searchResult }: { searchResult: Array<searchResultType> }) {
     const [displayLimit, setDisplayLimit] = useState(2);
-
     const handleShowMore = () => {
         setDisplayLimit(displayLimit + 2);
     };

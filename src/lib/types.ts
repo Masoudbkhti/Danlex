@@ -17,3 +17,11 @@ export interface Products {
         power: string
     }
 }
+
+
+
+export interface InitialState {
+    searchItems: any[];
+    filteredCategories: {id:string}[];
+    filteredProducts: any[];
+}

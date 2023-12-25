@@ -18,10 +18,11 @@ export default function Search() {
 
     useEffect(() => {
         dispatch(addToSearch(searchResult));
-    }, [dispatch, inputValue, categoryFilter]);
+
+    }, [inputValue]);
 
     const selector = useSelector((store) => store.Search);
-    console.log(selector.isFilterOn,"searchitemsss")
+    console.log(selector.searchItems,"searchitemsss")
     return <>
         <Box sx={{py:"80px", px:"20%"}}>
 

@@ -8,7 +8,7 @@ export default function ProductSearchCart ({title, id}) {
 
 
 
-    const productData = PRODUCTS.find((item)=> item.id === id)
+    const productData = PRODUCTS.find((item)=> item.id === id);
 
     // @ts-ignore
     return (
