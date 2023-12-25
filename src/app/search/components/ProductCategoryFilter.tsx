@@ -32,10 +32,7 @@ export default function ProductCategoryFilter({data}){
 
     const handleChange = (event, categoryName) => {
         setChecked(event.target.checked)
-
             dispatch(filterCategory(categoryName))
-
-
     };
 
 
